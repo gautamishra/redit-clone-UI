@@ -9,4 +9,5 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  .then(() => console.log("%c successfully compiled " , "color:green"))
+  .catch(err => console.log(`%c${err}` + "color:green"));
