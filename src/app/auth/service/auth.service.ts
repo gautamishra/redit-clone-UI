@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 import { SignupRequestPayload, LoginRequestPayload, LoginResponse } from '../model/auth.model';
 import { Observable } from 'rxjs';
@@ -22,9 +22,9 @@ export class AuthService {
   }
 
   login(loginRequestDto: LoginRequestPayload){
-    return this.http.post(APIendpoints.login, loginRequestDto)
+    return this.http.post<LoginResponse>(APIendpoints.login, loginRequestDto)
     .pipe(
-      map((data: LoginResponse) => {
+      map((data) => {
         this.cookieServcie.set('authenticationToken', data.authenticationToken);
         this.cookieServcie.set('username', data.username);
         this.cookieServcie.set('refreshToken', data.refreshToken);
@@ -32,5 +32,38 @@ export class AuthService {
         return true;
       })
     )
+  }
+
+
+  refreshToken() :Observable<LoginResponse> {
+    const refreshTokenDto = {
+      refreshToken: this.getRefreshToken(),
+      username: this.getUserName()
+    }
+
+   return this.http.post<LoginResponse>(APIendpoints.refreshToken, refreshTokenDto)
+    .pipe(  
+      tap((data) => {
+        this.cookieServcie.set('authenticationToken', data.authenticationToken);
+        this.cookieServcie.set('expiresAt', data.expiresAt.toString()); 
+      })
+    )
+  }
+
+  getJwtToken(): string {
+    console.log(this.cookieServcie.get('authenticationToken'));
+    return this.cookieServcie.get('authenticationToken');
+  }
+
+  getRefreshToken(): string {
+    return this.cookieServcie.get('refreshToken');
+  }
+
+  getUserName(): string {
+    return this.cookieServcie.get('username');
+  }
+
+  getExpirationTime(): string {
+    return this.cookieServcie.get('expiresAt');
   }
 }
