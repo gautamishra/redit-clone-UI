@@ -1,5 +1,8 @@
 import {environment} from './../../../environments/environment';
 
+const baseUrl = environment.apiBaseUrl; 
+
 export const APIendpoints  = {
-    signup: environment.apiBaseUrl + '/api/auth/signup',
+    signup: baseUrl + '/api/auth/signup',
+    login: baseUrl + '/api/auth/login'
 }

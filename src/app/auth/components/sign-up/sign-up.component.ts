@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {  SignupRequestPayloadDto } from '../../model/sign-up.model';
+import {  SignupRequestPayloadDto } from '../../model/auth.model';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
