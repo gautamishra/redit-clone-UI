@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostModel } from 'src/app/auth/model/post.model';
+import { PostModel } from 'src/app/model/post.model';
 import { PostService } from 'src/app/service/post.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class HomeReditComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPosts();
   }
-  
+
 
   getAllPosts() {
    this.postService.getAllPosts()
